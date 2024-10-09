@@ -5,7 +5,7 @@ import zipfile
 import tempfile
 from io import BytesIO
 
-def convert_and_zip(images):
+def convert_and_zip(images, resize=True):
     with tempfile.TemporaryDirectory() as temp_dir:
         converted_files = []
         total_files = len(images)
@@ -60,13 +60,9 @@ def main():
     if uploaded_files and len(uploaded_files) > 50:
         st.error("You can upload a maximum of 50 images at a time.")
         return
-
+    
     if st.button("Convert and Download") and uploaded_files:
-        zip_buffer = convert_and_zip(uploaded_files)
-
-    if len(uploaded_files) > 100:  # Adjust the number based on your environment's capacity
-        st.error("Please upload a maximum of 100 images at a time.")
-        return
+        zip_buffer = convert_and_zip(uploaded_files, resize=True)
 
         st.download_button(
             label="Download ZIP",
